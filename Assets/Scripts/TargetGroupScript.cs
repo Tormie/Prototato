@@ -11,17 +11,16 @@ public class TargetGroupScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("Init", 0.15f);
+    }
+
+    void Init()
+    {
         players = GameObject.FindGameObjectsWithTag("Player");
         targetGroup = GameObject.Find("TargetGroup1").GetComponent<CinemachineTargetGroup>();
         foreach (GameObject p in players)
         {
-            targetGroup.AddMember(p.transform,1,0);
+            targetGroup.AddMember(p.transform, 1, 0);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

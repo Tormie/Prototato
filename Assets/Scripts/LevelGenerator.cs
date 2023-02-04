@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField]
     GameObject spawnableTile;
+    [SerializeField]
+    GameObject finish;
     [SerializeField]
     Material mudMaterial;
     [SerializeField]
@@ -20,58 +23,52 @@ public class LevelGenerator : MonoBehaviour
     int mapHeight;
     int mudAmount, fieldAmount, rockAmount, bushAmount;
     List<int> tiles = new List<int>();
+    public int playerAmount = 1;
+    public GameObject playerPrefab;
+    public Material[] playerMats;
+
+    static LevelGenerator instance;
 
     Material m;
     string mTag;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        GenerateTileList();
-        for (int i = 0; i < mapWidth; i++)
+        if (SceneManager.GetActiveScene().name != "MainMenu")
         {
-            for (int j = 0; j < mapHeight; j++)
+            if (GetComponent<GameRunner>().levelNumber == 1)
             {
-                if (i == 0 && j == 0)
-                {
-
-                }
-                else if (i == mapWidth - 1 && j == mapHeight - 1)
-                {
-                    GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
-                    g.tag = "Standaard";
-                } else
-
-                {
-                    int k = tiles[Random.Range(0, tiles.Count)];
-
-                    GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
-                    /*int k = Random.Range(0, 4);*/
-                    switch (k)
-                    {
-                        case 0:
-                            m = mudMaterial;
-                            mTag = "Modder";
-                            break;
-                        case 1:
-                            m = fieldMaterial;
-                            mTag = "Akker";
-                            break;
-                        case 2:
-                            m = rockMaterial;
-                            mTag = "Rotsen";
-                            break;
-                        case 3:
-                            m = bushMaterial;
-                            mTag = "Struiken";
-                            break;
-                    }
-                    g.GetComponent<MeshRenderer>().material = m;
-                    g.tag = mTag;
-                    tiles.Remove(k);
-                }
-
+                SpawnInitialPlayers();
             }
+            else
+            {
+                SpawnPlayers();
+            }
+            GenerateTileList();
+            GenerateMap();
+        }
+    }
+
+    void SpawnInitialPlayers()
+    {
+        for (int i = 0; i < playerAmount; i++)
+        {
+            GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
+            p.GetComponent<PlayerMovement>().playerID = i + 1;
+            p.GetComponent<MeshRenderer>().material = playerMats[i];
+
+        }
+    }
+
+    void SpawnPlayers()
+    {
+        for (int i = 0; i < playerAmount; i++)
+        {
+            GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
+            p.GetComponent<PlayerMovement>().playerID = i + 1;
+            p.GetComponent<MeshRenderer>().material = playerMats[i];
+            p.GetComponent<PlayerStats>().legLength = GetComponent<GameRunner>().winnerPotatoLength + Random.Range(-0.2f, 0.2f);
+            p.GetComponent<PlayerStats>().legStrength = GetComponent<GameRunner>().winnerPotatoStrength + Random.Range(-0.2f, 0.2f);
         }
     }
 
@@ -104,9 +101,54 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void GenerateMap()
     {
-        
+        for (int i = 0; i < mapWidth; i++)
+        {
+            for (int j = 0; j < mapHeight; j++)
+            {
+                if (i == 0 && j == 0)
+                {
+
+                }
+                else if (i == mapWidth - 1 && j == mapHeight - 1)
+                {
+                    GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
+                    g.tag = "Standaard";
+                    Instantiate(finish, new Vector3(i * 4, 0.5f, j * 4), Quaternion.identity);
+                }
+                else
+
+                {
+                    int k = tiles[Random.Range(0, tiles.Count)];
+
+                    GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
+                    /*int k = Random.Range(0, 4);*/
+                    switch (k)
+                    {
+                        case 0:
+                            m = mudMaterial;
+                            mTag = "Modder";
+                            break;
+                        case 1:
+                            m = fieldMaterial;
+                            mTag = "Akker";
+                            break;
+                        case 2:
+                            m = rockMaterial;
+                            mTag = "Rotsen";
+                            break;
+                        case 3:
+                            m = bushMaterial;
+                            mTag = "Struiken";
+                            break;
+                    }
+                    g.GetComponent<MeshRenderer>().material = m;
+                    g.tag = mTag;
+                    tiles.Remove(k);
+                }
+
+            }
+        }
     }
 }

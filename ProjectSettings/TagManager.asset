@@ -9,6 +9,7 @@ TagManager:
   - Struiken
   - Modder
   - Standaard
+  - FinshTag
   layers:
   - Default
   - TransparentFX

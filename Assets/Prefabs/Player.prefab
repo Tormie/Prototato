@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3142538426231145398}
   - component: {fileID: 3142538426231145399}
   - component: {fileID: 3142538426231145394}
+  - component: {fileID: 3862917937176902086}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -223,4 +224,20 @@ MonoBehaviour:
   currentSpeedMod: 1
   stealthMeter: 1
   tiles: []
+  dangerShadow: {fileID: 3142538426124216866}
+--- !u!114 &3862917937176902086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3142538426231145396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abcb5a7d29a4d81a0ebde32a9da4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  legStrength: 0
+  legLength: 0
+  stealthMeter: 1
   dangerShadow: {fileID: 3142538426124216866}

@@ -5,14 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    int playerID;
+    public int playerID;
     string inputHAxis, inputVAxis;
     [SerializeField]
     float moveSpeed = 5;
-    [SerializeField]
-    float legStrength = 0;
-    [SerializeField]
-    float legLength = 0;
     [SerializeField]
     float rockSpeedModifier = 0.5f;
     [SerializeField]
@@ -21,21 +17,14 @@ public class PlayerMovement : MonoBehaviour
     float bushSpeedModifier = 0.5f;
     [SerializeField]
     float currentSpeedMod = 1;
-    [SerializeField]
-    float stealthMeter = 1;
     RaycastHit hitinfo;
     public List<GameObject> tiles = new List<GameObject>();
     bool isScanning = true;
-    bool isOnField = false;
-    [SerializeField]
-    GameObject dangerShadow;
-    SpriteRenderer shadowRenderer;
-    Color shadowStartColor;
+    PlayerStats ps;
     // Start is called before the first frame update
     void Start()
     {
-        shadowRenderer = dangerShadow.GetComponent<SpriteRenderer>();
-        shadowStartColor = shadowRenderer.color;
+        ps = GetComponent<PlayerStats>();
         switch (playerID)
         {
             case 1:
@@ -67,19 +56,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (isOnField)
-        {
-            shadowRenderer.enabled = true;
-            stealthMeter -= Time.deltaTime;
-            float shadowAlpha = 0.4f + 0.6f * (1 - stealthMeter);
-            shadowRenderer.color = new Color(0,0,0,shadowAlpha);
-            dangerShadow.transform.localScale = new Vector3(5 - 4 * (1 - stealthMeter), 5 - 4 * (1 - stealthMeter), 5 - 4 * (1 - stealthMeter));
-        } else
-        {
-            shadowRenderer.enabled = false;
-            stealthMeter += Time.deltaTime;
-        }
-        stealthMeter = Mathf.Clamp(stealthMeter, 0, 1);
         transform.Translate((moveSpeed * currentSpeedMod * Input.GetAxis(inputHAxis) * Time.deltaTime), 0, (moveSpeed * currentSpeedMod * Input.GetAxis(inputVAxis) * Time.deltaTime));
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitinfo))
         {
@@ -87,23 +63,23 @@ public class PlayerMovement : MonoBehaviour
             {
                 case "Standaard":
                     currentSpeedMod = 1;
-                    isOnField = false;
+                    ps.isOnField = false;
                     break;
                 case "Rotsen":
-                    currentSpeedMod = Mathf.Clamp(rockSpeedModifier + legLength / 2, 0.25f, 2);
-                    isOnField = false;
+                    currentSpeedMod = Mathf.Clamp(rockSpeedModifier + ps.legLength / 2, 0.25f, 2);
+                    ps.isOnField = false;
                     break;
                 case "Struiken":
-                    currentSpeedMod = Mathf.Clamp(bushSpeedModifier - legLength / 2, 0.25f, 2);
-                    isOnField = false;
+                    currentSpeedMod = Mathf.Clamp(bushSpeedModifier - ps.legLength / 2, 0.25f, 2);
+                    ps.isOnField = false;
                     break;
                 case "Modder":
-                    currentSpeedMod = mudSpeedModifier + legStrength / 2;
-                    isOnField = false;
+                    currentSpeedMod = mudSpeedModifier + ps.legStrength / 2;
+                    ps.isOnField = false;
                     break;
                 case "Akker":
                     currentSpeedMod = 1;
-                    isOnField = true;
+                    ps.isOnField = true;
                     break;
             }
         }
@@ -133,5 +109,13 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject tile = tiles[Random.Range(0, tiles.Count)];
         transform.position = tile.transform.position + new Vector3(0, 1.29f, 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            StartCoroutine(GameObject.Find("GameEngine").GetComponent<GameRunner>().FinishLevel(gameObject));
+        }
     }
 }

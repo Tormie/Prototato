@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: c5d3e6ce217224e8c9580da853f5afc6
+  - enabled: 1
+    path: Assets/Scenes/TileGen.unity
+    guid: 66e9d6a3d04f948828a4a2db6ec0099c
+  - enabled: 1
+    path: Assets/Scenes/PotatoPicker.unity
+    guid: e8432764570e24bd3890b1ece3f2f1a6
   m_configObjects: {}
