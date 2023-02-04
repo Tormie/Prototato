@@ -8,9 +8,12 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     public int playerID;
+    [SerializeField]
+    string playerName;
     string inputHAxis, inputVAxis;
     [SerializeField]
     float moveSpeed = 5;
+    float birdSpeed = 7;
     [SerializeField]
     float rockSpeedModifier = 0.25f;
     [SerializeField]
@@ -26,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     bool isScanning = true;
     public float distanceToFinish;
     PlayerStats ps;
+    public bool birding = false;
+    Transform birdTarget;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,19 +84,34 @@ public class PlayerMovement : MonoBehaviour
 
     void FindTiles()
     {
-        tiles.AddRange(GameObject.FindGameObjectsWithTag("Akker"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Struiken"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Rotsen"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Modder"));
         scoreTMP.text = GameObject.Find("GameEngine").GetComponent<GameRunner>().playerScores[playerID - 1].ToString();
     }
 
-
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.Translate((moveSpeed * currentSpeedMod * Input.GetAxis(inputHAxis) * Time.deltaTime), 0, (moveSpeed * currentSpeedMod * Input.GetAxis(inputVAxis) * Time.deltaTime));
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitinfo))
+        if (!birding)
+        {
+            transform.Translate((moveSpeed * currentSpeedMod * Input.GetAxis(inputHAxis) * Time.deltaTime), 0, (moveSpeed * currentSpeedMod * Input.GetAxis(inputVAxis) * Time.deltaTime));
+        } else
+        {
+            if (birdTarget == null)
+            {
+                birdTarget = tiles[Random.Range(0, tiles.Count)].transform;
+            } else
+            {
+                transform.Translate((birdTarget.transform.position - transform.position).normalized * birdSpeed * Time.deltaTime);
+                if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z),new Vector2(birdTarget.transform.position.x, birdTarget.transform.position.z)) <= 0.25f)
+                {
+                    birding = false;
+                    birdTarget = null;
+                }
+            }
+        }
+        if (Physics.Raycast(transform.position+new Vector3(0,0.5f,0), Vector3.down, out RaycastHit hitinfo))
         {
             switch (hitinfo.collider.gameObject.tag)
             {

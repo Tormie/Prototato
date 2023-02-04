@@ -52,11 +52,10 @@ public class GameRunner : MonoBehaviour
         levelNumber++;
         if (levelNumber >= levelAmount)
         {
-            //Load final scene
+            SceneManager.LoadScene("FinalScreen");
         }
         else
         {
-            
             SceneManager.LoadScene("PotatoPicker");
             //Load potato picker
         }

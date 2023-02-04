@@ -16,9 +16,11 @@ public class PlayerStats : MonoBehaviour
     SpriteRenderer shadowRenderer;
     Color shadowStartColor;
     public bool isOnField = false;
+    PlayerMovement pm;
     // Start is called before the first frame update
     void Start()
     {
+        pm = GetComponent<PlayerMovement>();
         shadowRenderer = dangerShadow.GetComponent<SpriteRenderer>();
         shadowStartColor = shadowRenderer.color;
     }
@@ -33,6 +35,11 @@ public class PlayerStats : MonoBehaviour
             float shadowAlpha = 0.4f + 0.6f * (1 - stealthMeter);
             shadowRenderer.color = new Color(0, 0, 0, shadowAlpha);
             dangerShadow.transform.localScale = new Vector3(5 - 4 * (1 - stealthMeter), 5 - 4 * (1 - stealthMeter), 5 - 4 * (1 - stealthMeter));
+            if (stealthMeter <= 0)
+            {
+                pm.birding = true;
+                //Trigger bird
+            }
         }
         else
         {

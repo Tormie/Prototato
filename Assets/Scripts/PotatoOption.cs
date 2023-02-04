@@ -17,11 +17,13 @@ public class PotatoOption : MonoBehaviour
     bool isSelectedP1, isSelectedP2, isSelectedP3, isSelectedP4 = false;
     PotatoPicker pi;
     bool canClick = true;
+    Button b;
 
     // Start is called before the first frame update
     void Start()
     {
         pi = GameObject.Find("Canvas").GetComponent<PotatoPicker>();
+        b = GetComponent<Button>();
         ol = GetComponent<Outline>();
         ol.enabled = false;
         if (SceneManager.GetActiveScene().name == "InitialPotatoPicker")
@@ -36,6 +38,43 @@ public class PotatoOption : MonoBehaviour
         }
         pLen.GetComponent<TextMeshProUGUI>().text = "Length: "+potatoLen;
         pStr.GetComponent<TextMeshProUGUI>().text = "Strenght: "+potatoStr;
+    }
+
+    public void SetDefault()
+    {
+        GetComponent<Button>().Select();
+    }
+
+    public void Update()
+    {
+        
+        switch (pi.playerTurn)
+        {
+            case 1:
+                ColorBlock cb = b.colors;
+                cb.highlightedColor = new Color(0, 0, 1);
+                cb.selectedColor = new Color(0, 0, 1);
+                b.colors = cb;
+                break;
+            case 2:
+                cb = b.colors;
+                cb.highlightedColor = new Color(1, 0, 0);
+                cb.selectedColor = new Color(1, 0, 0);
+                b.colors = cb;
+                break;
+            case 3:
+                cb = b.colors;
+                cb.highlightedColor = new Color(0, 1, 0);
+                cb.selectedColor = new Color(0, 1, 0);
+                b.colors = cb;
+                break;
+            case 4:
+                cb = b.colors;
+                cb.highlightedColor = new Color(1, 1, 0);
+                cb.selectedColor = new Color(1, 1, 0);
+                b.colors = cb;
+                break;
+        }
     }
 
     public void SelectPotato()
