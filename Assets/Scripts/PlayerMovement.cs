@@ -39,6 +39,10 @@ public class PlayerMovement : MonoBehaviour
                 inputHAxis = "Horizontal3";
                 inputVAxis = "Vertical3";
                 break;
+            case 4:
+                inputHAxis = "Horizontal4";
+                inputVAxis = "Vertical4";
+                break;
         }
         InvokeRepeating("RemoveFog",0, 0.2f);
         Invoke("FindTiles", 0.1f);

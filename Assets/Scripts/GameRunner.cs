@@ -8,15 +8,16 @@ public class GameRunner : MonoBehaviour
 {
     bool isPaused = false;
     public int levelNumber = 1;
-    int playerAmount = 1;
     public int levelAmount = 5;
     [SerializeField]
     GameObject winText;
     public float winnerPotatoLength;
     public float winnerPotatoStrength;
+    public float[,] pStats;
 
     public void Init()
     {
+        pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
         winText = GameObject.Find("WinText");
         winText.SetActive(false);
     }

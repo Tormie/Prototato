@@ -26,6 +26,7 @@ public class LevelGenerator : MonoBehaviour
     public int playerAmount = 1;
     public GameObject playerPrefab;
     public Material[] playerMats;
+    GameRunner gr;
 
     static LevelGenerator instance;
 
@@ -34,6 +35,7 @@ public class LevelGenerator : MonoBehaviour
 
     public void Init()
     {
+        gr = GetComponent<GameRunner>();
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             if (GetComponent<GameRunner>().levelNumber == 1)
@@ -56,7 +58,6 @@ public class LevelGenerator : MonoBehaviour
             GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
             p.GetComponent<PlayerMovement>().playerID = i + 1;
             p.GetComponent<MeshRenderer>().material = playerMats[i];
-
         }
     }
 
@@ -67,8 +68,10 @@ public class LevelGenerator : MonoBehaviour
             GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
             p.GetComponent<PlayerMovement>().playerID = i + 1;
             p.GetComponent<MeshRenderer>().material = playerMats[i];
-            p.GetComponent<PlayerStats>().legLength = GetComponent<GameRunner>().winnerPotatoLength + Random.Range(-0.2f, 0.2f);
-            p.GetComponent<PlayerStats>().legStrength = GetComponent<GameRunner>().winnerPotatoStrength + Random.Range(-0.2f, 0.2f);
+            p.GetComponent<PlayerStats>().legLength = gr.pStats[i, 0];
+            Debug.Log(gr.pStats[i, 0]);
+            Debug.Log(gr.pStats[i, 1]);
+            p.GetComponent<PlayerStats>().legStrength = gr.pStats[i, 1];
         }
     }
 
@@ -123,7 +126,6 @@ public class LevelGenerator : MonoBehaviour
                     int k = tiles[Random.Range(0, tiles.Count)];
 
                     GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
-                    /*int k = Random.Range(0, 4);*/
                     switch (k)
                     {
                         case 0:
