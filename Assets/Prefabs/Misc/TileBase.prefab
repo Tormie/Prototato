@@ -197,6 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileType: 0
   fogCube: {fileID: 1236324418679463554}
+  fogParticle: {fileID: 5649936898089221499, guid: 58da7f33f222846a3ba0d02920838508, type: 3}
 --- !u!65 &8840420834312317801
 BoxCollider:
   m_ObjectHideFlags: 0

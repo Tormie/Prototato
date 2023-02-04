@@ -8,6 +8,9 @@ public class TileScript : MonoBehaviour
     int tileType;
     [SerializeField]
     GameObject fogCube;
+    [SerializeField]
+    GameObject fogParticle;
+    bool fogDisabled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +18,11 @@ public class TileScript : MonoBehaviour
 
     public void DisableFog()
     {
-        Destroy(fogCube);
+        if (fogDisabled == false)
+        {
+            Destroy(fogCube);
+            Instantiate(fogParticle, transform.position+ new Vector3(0,1,0), Quaternion.identity);
+            fogDisabled = true;
+        }
     }
 }

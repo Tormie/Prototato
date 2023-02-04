@@ -2183,6 +2183,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9150612980475414403, guid: ab33f0d8e9eaa481aa0200b17747140d, type: 3}
     - target: {fileID: 1013256667412932010, guid: b35c9507a6fac417c9a4c40806b5647b, type: 3}
+      propertyPath: fieldMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 5e723a97121dd491590d90275de261be, type: 2}
+    - target: {fileID: 1013256667412932010, guid: b35c9507a6fac417c9a4c40806b5647b, type: 3}
       propertyPath: rearMaterials.Array.size
       value: 4
       objectReference: {fileID: 0}
