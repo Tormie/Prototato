@@ -28,6 +28,39 @@ public class LevelGenerator : MonoBehaviour
     void Start()
     {
         GenerateTileList();
+        GenerateMap();
+    }
+    void GenerateTileList()
+    {
+        int totalTiles = mapWidth * mapHeight - 2;
+        mudAmount = totalTiles / 6;
+        bushAmount = totalTiles / 6;
+        rockAmount = totalTiles / 6;
+        fieldAmount = totalTiles / 6;
+        for (int m = 0; m < mudAmount; m++)
+        {
+            tiles.Add(0);
+        }
+        for (int b = 0; b < bushAmount; b++)
+        {
+            tiles.Add(3);
+        }
+        for (int r = 0; r < rockAmount; r++)
+        {
+            tiles.Add(2);
+        }
+        for (int f = 0; f < fieldAmount; f++)
+        {
+            tiles.Add(1);
+        }
+        for (int rand = 0; rand < totalTiles - (mudAmount + fieldAmount + bushAmount + rockAmount); rand++)
+        {
+            tiles.Add(Random.Range(0, 4));
+        }
+    }
+
+    void GenerateMap()
+    {
         for (int i = 0; i < mapWidth; i++)
         {
             for (int j = 0; j < mapHeight; j++)
@@ -40,7 +73,8 @@ public class LevelGenerator : MonoBehaviour
                 {
                     GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
                     g.tag = "Standaard";
-                } else
+                }
+                else
 
                 {
                     int k = tiles[Random.Range(0, tiles.Count)];
@@ -73,40 +107,5 @@ public class LevelGenerator : MonoBehaviour
 
             }
         }
-    }
-
-    void GenerateTileList()
-    {
-        int totalTiles = mapWidth * mapHeight - 2;
-        mudAmount = totalTiles / 6;
-        bushAmount = totalTiles / 6;
-        rockAmount = totalTiles / 6;
-        fieldAmount = totalTiles / 6;
-        for (int m = 0; m < mudAmount; m++)
-        {
-            tiles.Add(0);
-        }
-        for (int b = 0; b < bushAmount; b++)
-        {
-            tiles.Add(3);
-        }
-        for (int r = 0; r < rockAmount; r++)
-        {
-            tiles.Add(2);
-        }
-        for (int f = 0; f < fieldAmount; f++)
-        {
-            tiles.Add(1);
-        }
-        for (int rand = 0; rand < totalTiles - (mudAmount + fieldAmount + bushAmount + rockAmount); rand++)
-        {
-            tiles.Add(Random.Range(0, 4));
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
