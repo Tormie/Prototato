@@ -61,6 +61,10 @@ public class PotatoPicker : MonoBehaviour
             GameObject b = Instantiate(potatoOption, new Vector3(0, 0, 0), Quaternion.identity);
             b.transform.SetParent(cv.transform);
             b.transform.localPosition = new Vector3(-720 + (i * 480), 0, 0);
+            if (i == 0)
+            {
+                b.GetComponent<PotatoOption>().SetDefault();
+            }
             if (SceneManager.GetActiveScene().name == "InitialPotatoPicker")
             {
                 b.GetComponent<PotatoOption>().potatoLen = Random.Range(-25, 26);

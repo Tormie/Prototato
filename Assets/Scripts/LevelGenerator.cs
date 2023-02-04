@@ -22,14 +22,16 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     Material finishMat;
     [SerializeField]
-    public int mapWidth;
+    public int mapWidth = 5;
     [SerializeField]
-    public int mapHeight;
+    public int mapHeight = 5;
     int mudAmount, fieldAmount, rockAmount, bushAmount;
     List<int> tiles = new List<int>();
-    public int playerAmount = 1;
+    public int playerAmount = 2;
     public GameObject playerPrefab;
     public Material[] playerMats;
+    public Material[] frontMaterials;
+    public Material[] rearMaterials;
     GameRunner gr;
 
     static LevelGenerator instance;
@@ -54,7 +56,12 @@ public class LevelGenerator : MonoBehaviour
         {
             GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
             p.GetComponent<PlayerMovement>().playerID = i + 1;
-            p.GetComponent<MeshRenderer>().material = playerMats[i];
+            //p.GetComponent<MeshRenderer>().material = playerMats[i];
+            SkinnedMeshRenderer renderer = p.GetComponentInChildren<SkinnedMeshRenderer>();
+            Material[] mats = renderer.materials;
+            mats[0] = frontMaterials[i];
+            mats[1] = rearMaterials[i];
+            renderer.materials = mats;
             p.GetComponent<PlayerStats>().legLength = gr.pStats[i, 0];
             Debug.Log(gr.pStats[i, 0]);
             Debug.Log(gr.pStats[i, 1]);
@@ -142,11 +149,11 @@ public class LevelGenerator : MonoBehaviour
         }
         GameObject bw = Instantiate(invisWall, new Vector3(mapWidth * 2 - 2, 0, -2.5f), Quaternion.identity);
         bw.transform.localScale = new Vector3(mapWidth * 4, 10, 1);
-        GameObject tw = Instantiate(invisWall, new Vector3(mapWidth * 2 - 2, 0, 18.5f), Quaternion.identity);
+        GameObject tw = Instantiate(invisWall, new Vector3(mapWidth * 2 - 2, 0, mapWidth * 4 - 1.5f), Quaternion.identity);
         tw.transform.localScale = new Vector3(mapWidth * 4, 10, 1);
         GameObject lw = Instantiate(invisWall, new Vector3(-2.5f, 0, mapWidth * 2 - 2), Quaternion.identity);
         lw.transform.localScale = new Vector3(1, 10, mapWidth * 4);
-        GameObject rw = Instantiate(invisWall, new Vector3(18.5f, 0, mapWidth * 2 - 2), Quaternion.identity);
+        GameObject rw = Instantiate(invisWall, new Vector3(mapWidth*4-1.5f, 0, mapWidth * 2 - 2), Quaternion.identity);
         rw.transform.localScale = new Vector3(1, 10, mapWidth * 4);
     }
 }
