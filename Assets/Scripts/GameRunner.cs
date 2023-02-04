@@ -19,6 +19,12 @@ public class GameRunner : MonoBehaviour
     bool areScoresInit = false;
     public List<GameObject> playerOrder;
 
+
+    private void Start()
+    {
+        pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
+    }
+
     public void Init()
     {
         winText = GameObject.Find("WinText");

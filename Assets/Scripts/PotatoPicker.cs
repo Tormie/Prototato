@@ -75,11 +75,19 @@ public class PotatoPicker : MonoBehaviour
         {
             Debug.Log(f);
         }
+        for (int i = 0; i < GameObject.Find("GameEngine").GetComponent<LevelGenerator>().playerAmount; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                ge.GetComponent<GameRunner>().pStats[i, j] = pStats[i, j];
+            }
+        }
+        ge.GetComponent<GameRunner>().pStats = pStats;
         nextLevelButton.GetComponent<Button>().interactable = true;
     }
     public void NextLevel()
     {
-        ge.GetComponent<GameRunner>().pStats = pStats;
+        
         SceneManager.LoadScene("TileGen");
     }
 }
