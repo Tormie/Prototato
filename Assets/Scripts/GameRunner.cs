@@ -15,9 +15,15 @@ public class GameRunner : MonoBehaviour
     public float winnerPotatoStrength;
     public float[,] pStats;
 
-    public void Init()
+
+    private void Start()
     {
         pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
+    }
+
+    public void Init()
+    {
+        //pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
         winText = GameObject.Find("WinText");
         winText.SetActive(false);
     }
