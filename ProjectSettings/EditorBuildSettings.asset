@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PotatoPicker.unity
     guid: e8432764570e24bd3890b1ece3f2f1a6
+  - enabled: 1
+    path: Assets/Scenes/InitialPotatoPicker.unity
+    guid: 6d71b4de8dcb94757935ed3dce5b5f13
   m_configObjects: {}
