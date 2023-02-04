@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    int playerID;
+    public int playerID;
     string inputHAxis, inputVAxis;
     [SerializeField]
     float moveSpeed = 5;
@@ -109,5 +109,13 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject tile = tiles[Random.Range(0, tiles.Count)];
         transform.position = tile.transform.position + new Vector3(0, 1.29f, 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            StartCoroutine(GameObject.Find("GameEngine").GetComponent<GameRunner>().FinishLevel(gameObject));
+        }
     }
 }

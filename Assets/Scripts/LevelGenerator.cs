@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField]
     GameObject spawnableTile;
+    [SerializeField]
+    GameObject finish;
     [SerializeField]
     Material mudMaterial;
     [SerializeField]
@@ -20,16 +23,55 @@ public class LevelGenerator : MonoBehaviour
     int mapHeight;
     int mudAmount, fieldAmount, rockAmount, bushAmount;
     List<int> tiles = new List<int>();
+    public int playerAmount = 1;
+    public GameObject playerPrefab;
+    public Material[] playerMats;
+
+    static LevelGenerator instance;
 
     Material m;
     string mTag;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
-        GenerateTileList();
-        GenerateMap();
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            if (GetComponent<GameRunner>().levelNumber == 1)
+            {
+                SpawnInitialPlayers();
+            }
+            else
+            {
+                SpawnPlayers();
+            }
+            GenerateTileList();
+            GenerateMap();
+        }
     }
+
+    void SpawnInitialPlayers()
+    {
+        for (int i = 0; i < playerAmount; i++)
+        {
+            GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
+            p.GetComponent<PlayerMovement>().playerID = i + 1;
+            p.GetComponent<MeshRenderer>().material = playerMats[i];
+
+        }
+    }
+
+    void SpawnPlayers()
+    {
+        for (int i = 0; i < playerAmount; i++)
+        {
+            GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
+            p.GetComponent<PlayerMovement>().playerID = i + 1;
+            p.GetComponent<MeshRenderer>().material = playerMats[i];
+            p.GetComponent<PlayerStats>().legLength = GetComponent<GameRunner>().winnerPotatoLength + Random.Range(-0.2f, 0.2f);
+            p.GetComponent<PlayerStats>().legStrength = GetComponent<GameRunner>().winnerPotatoStrength + Random.Range(-0.2f, 0.2f);
+        }
+    }
+
     void GenerateTileList()
     {
         int totalTiles = mapWidth * mapHeight - 2;
@@ -73,6 +115,7 @@ public class LevelGenerator : MonoBehaviour
                 {
                     GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
                     g.tag = "Standaard";
+                    Instantiate(finish, new Vector3(i * 4, 0.5f, j * 4), Quaternion.identity);
                 }
                 else
 
