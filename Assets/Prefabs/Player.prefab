@@ -216,15 +216,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 1
   moveSpeed: 5
-  legStrength: 0
-  legLength: 1
-  rockSpeedModifier: 0.5
-  mudSpeedModifier: 0.5
-  bushSpeedModifier: 0.5
+  rockSpeedModifier: 0.25
+  mudSpeedModifier: 0.25
+  bushSpeedModifier: 0.25
   currentSpeedMod: 1
-  stealthMeter: 1
   tiles: []
-  dangerShadow: {fileID: 3142538426124216866}
+  distanceToFinish: 0
 --- !u!114 &3862917937176902086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,3 +238,4 @@ MonoBehaviour:
   legLength: 0
   stealthMeter: 1
   dangerShadow: {fileID: 3142538426124216866}
+  isOnField: 0

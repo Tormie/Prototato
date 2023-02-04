@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class LevelGenerator : MonoBehaviour
 {
     [SerializeField]
+    GameObject invisWall;
+    [SerializeField]
     GameObject spawnableTile;
     [SerializeField]
     GameObject finish;
@@ -18,9 +20,11 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField]
     Material bushMaterial;
     [SerializeField]
-    int mapWidth;
+    Material finishMat;
     [SerializeField]
-    int mapHeight;
+    public int mapWidth;
+    [SerializeField]
+    public int mapHeight;
     int mudAmount, fieldAmount, rockAmount, bushAmount;
     List<int> tiles = new List<int>();
     public int playerAmount = 1;
@@ -36,28 +40,11 @@ public class LevelGenerator : MonoBehaviour
     public void Init()
     {
         gr = GetComponent<GameRunner>();
-        if (SceneManager.GetActiveScene().name != "MainMenu")
+        if (SceneManager.GetActiveScene().name == "TileGen")
         {
-            if (GetComponent<GameRunner>().levelNumber == 1)
-            {
-                SpawnInitialPlayers();
-            }
-            else
-            {
-                SpawnPlayers();
-            }
+            SpawnPlayers();
             GenerateTileList();
             GenerateMap();
-        }
-    }
-
-    void SpawnInitialPlayers()
-    {
-        for (int i = 0; i < playerAmount; i++)
-        {
-            GameObject p = Instantiate(playerPrefab, new Vector3(-1 + (i * 0.5f), 1, 1 - (i * 0.5f)), Quaternion.identity);
-            p.GetComponent<PlayerMovement>().playerID = i + 1;
-            p.GetComponent<MeshRenderer>().material = playerMats[i];
         }
     }
 
@@ -118,6 +105,7 @@ public class LevelGenerator : MonoBehaviour
                 {
                     GameObject g = Instantiate(spawnableTile, new Vector3(i * 4, 0, j * 4), Quaternion.identity);
                     g.tag = "Standaard";
+                    g.GetComponent<MeshRenderer>().material = finishMat;
                     Instantiate(finish, new Vector3(i * 4, 0.5f, j * 4), Quaternion.identity);
                 }
                 else
@@ -152,5 +140,13 @@ public class LevelGenerator : MonoBehaviour
 
             }
         }
+        GameObject bw = Instantiate(invisWall, new Vector3(mapWidth * 2 - 2, 0, -2.5f), Quaternion.identity);
+        bw.transform.localScale = new Vector3(mapWidth * 4, 10, 1);
+        GameObject tw = Instantiate(invisWall, new Vector3(mapWidth * 2 - 2, 0, 18.5f), Quaternion.identity);
+        tw.transform.localScale = new Vector3(mapWidth * 4, 10, 1);
+        GameObject lw = Instantiate(invisWall, new Vector3(-2.5f, 0, mapWidth * 2 - 2), Quaternion.identity);
+        lw.transform.localScale = new Vector3(1, 10, mapWidth * 4);
+        GameObject rw = Instantiate(invisWall, new Vector3(18.5f, 0, mapWidth * 2 - 2), Quaternion.identity);
+        rw.transform.localScale = new Vector3(1, 10, mapWidth * 4);
     }
 }

@@ -14,16 +14,34 @@ public class GameRunner : MonoBehaviour
     public float winnerPotatoLength;
     public float winnerPotatoStrength;
     public float[,] pStats;
+    public int[] playerScores;
+    public int[] playerIndexOrder;
+    bool areScoresInit = false;
+    public List<GameObject> playerOrder;
 
     public void Init()
     {
-        pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
         winText = GameObject.Find("WinText");
         winText.SetActive(false);
     }
 
+    private void Start()
+    {
+        pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
+    }
+
+    public void SetPScores()
+    {
+        if (!areScoresInit)
+        {
+            playerScores = new int[GetComponent<LevelGenerator>().playerAmount];
+            areScoresInit = true;
+        }
+    }
+
     public IEnumerator FinishLevel(GameObject winningPlayer)
     {
+        CalculateScores(winningPlayer);
         winText.SetActive(true);
         winText.GetComponent<TextMeshProUGUI>().text = "Test Player Won!";
         winnerPotatoLength = winningPlayer.GetComponent<PlayerStats>().legLength;
@@ -31,7 +49,7 @@ public class GameRunner : MonoBehaviour
         yield return new WaitForSeconds(2);
         winText.SetActive(false);
         levelNumber++;
-        if (levelNumber > levelAmount)
+        if (levelNumber >= levelAmount)
         {
             //Load final scene
         }
@@ -40,6 +58,37 @@ public class GameRunner : MonoBehaviour
             
             SceneManager.LoadScene("PotatoPicker");
             //Load potato picker
+        }
+    }
+
+    void CalculateScores(GameObject winningPlayer)
+    {
+        playerOrder = new List<GameObject>();
+        playerIndexOrder = new int[GetComponent<LevelGenerator>().playerAmount];
+        playerOrder.Add(winningPlayer);
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (g != winningPlayer)
+            {
+                foreach (GameObject f in playerOrder)
+                {
+                    if (g.GetComponent<PlayerMovement>().distanceToFinish < f.GetComponent<PlayerMovement>().distanceToFinish)
+                    {
+                        playerOrder.Insert(playerOrder.IndexOf(f), g);
+                    }
+                    else
+                    {
+                        playerOrder.Add(g);
+                        break;
+                    }
+                }
+            }
+        }
+        Debug.Log(playerOrder.Count);
+        for (int i = 0; i < playerOrder.Count; i++)
+        {
+            playerIndexOrder[i] = playerOrder[i].GetComponent<PlayerMovement>().playerID;
+            playerScores[playerOrder[i].GetComponent<PlayerMovement>().playerID - 1] += (3 - i);
         }
     }
 }

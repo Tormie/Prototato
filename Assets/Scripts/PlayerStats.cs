@@ -29,7 +29,7 @@ public class PlayerStats : MonoBehaviour
         if (isOnField)
         {
             shadowRenderer.enabled = true;
-            stealthMeter -= (Time.deltaTime* (1+legStrength));
+            stealthMeter -= (Time.deltaTime* (1+legStrength/100));
             float shadowAlpha = 0.4f + 0.6f * (1 - stealthMeter);
             shadowRenderer.color = new Color(0, 0, 0, shadowAlpha);
             dangerShadow.transform.localScale = new Vector3(5 - 4 * (1 - stealthMeter), 5 - 4 * (1 - stealthMeter), 5 - 4 * (1 - stealthMeter));

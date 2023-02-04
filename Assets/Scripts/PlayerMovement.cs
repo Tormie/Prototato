@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,16 +12,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float moveSpeed = 5;
     [SerializeField]
-    float rockSpeedModifier = 0.5f;
+    float rockSpeedModifier = 0.25f;
     [SerializeField]
-    float mudSpeedModifier = 0.5f;
+    float mudSpeedModifier = 0.25f;
     [SerializeField]
-    float bushSpeedModifier = 0.5f;
+    float bushSpeedModifier = 0.25f;
     [SerializeField]
     float currentSpeedMod = 1;
     RaycastHit hitinfo;
+    Slider strSlider, lenSlider;
+    TextMeshProUGUI scoreTMP;
     public List<GameObject> tiles = new List<GameObject>();
     bool isScanning = true;
+    public float distanceToFinish;
     PlayerStats ps;
     // Start is called before the first frame update
     void Start()
@@ -44,8 +49,32 @@ public class PlayerMovement : MonoBehaviour
                 inputVAxis = "Vertical4";
                 break;
         }
+        switch (playerID)
+        {
+            case 1:
+                strSlider = GameObject.Find("P1StrSlider").GetComponent<Slider>();
+                lenSlider = GameObject.Find("P1LenSlider").GetComponent<Slider>();
+                scoreTMP = GameObject.Find("P1Score").GetComponent<TextMeshProUGUI>();
+                break;
+            case 2:
+                strSlider = GameObject.Find("P2StrSlider").GetComponent<Slider>();
+                lenSlider = GameObject.Find("P2LenSlider").GetComponent<Slider>();
+                scoreTMP = GameObject.Find("P2Score").GetComponent<TextMeshProUGUI>();
+                break;
+            case 3:
+                strSlider = GameObject.Find("P3StrSlider").GetComponent<Slider>();
+                lenSlider = GameObject.Find("P3LenSlider").GetComponent<Slider>();
+                scoreTMP = GameObject.Find("P3Score").GetComponent<TextMeshProUGUI>();
+                break;
+            case 4:
+                strSlider = GameObject.Find("P4StrSlider").GetComponent<Slider>();
+                lenSlider = GameObject.Find("P4LenSlider").GetComponent<Slider>();
+                scoreTMP = GameObject.Find("P4Score").GetComponent<TextMeshProUGUI>();
+                break;
+        }
+        
         InvokeRepeating("RemoveFog",0, 0.2f);
-        Invoke("FindTiles", 0.1f);
+        Invoke("FindTiles", 0.15f);
     }
 
     void FindTiles()
@@ -54,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Struiken"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Rotsen"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Modder"));
+        scoreTMP.text = GameObject.Find("GameEngine").GetComponent<GameRunner>().playerScores[playerID - 1].ToString();
     }
 
 
@@ -70,15 +100,15 @@ public class PlayerMovement : MonoBehaviour
                     ps.isOnField = false;
                     break;
                 case "Rotsen":
-                    currentSpeedMod = Mathf.Clamp(rockSpeedModifier + ps.legLength / 2, 0.25f, 2);
+                    currentSpeedMod = Mathf.Clamp(rockSpeedModifier + ps.legLength / 100, 0.25f, 2);
                     ps.isOnField = false;
                     break;
                 case "Struiken":
-                    currentSpeedMod = Mathf.Clamp(bushSpeedModifier - ps.legLength / 2, 0.25f, 2);
+                    currentSpeedMod = Mathf.Clamp(bushSpeedModifier - ps.legLength / 100, 0.25f, 2);
                     ps.isOnField = false;
                     break;
                 case "Modder":
-                    currentSpeedMod = mudSpeedModifier + ps.legStrength / 2;
+                    currentSpeedMod = mudSpeedModifier + ps.legStrength / 100;
                     ps.isOnField = false;
                     break;
                 case "Akker":
@@ -87,10 +117,9 @@ public class PlayerMovement : MonoBehaviour
                     break;
             }
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TeleportToTile();
-        }
+        strSlider.value = ps.legStrength;
+        lenSlider.value = ps.legLength;
+        distanceToFinish = Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Finish").transform.position);
 
     }
     void RemoveFog()
