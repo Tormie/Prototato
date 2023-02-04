@@ -31,11 +31,6 @@ public class GameRunner : MonoBehaviour
         winText.SetActive(false);
     }
 
-    private void Start()
-    {
-        pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
-    }
-
     public void SetPScores()
     {
         if (!areScoresInit)

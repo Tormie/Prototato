@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
                     ps.isOnField = false;
                     break;
                 case "Modder":
-                    currentSpeedMod = mudSpeedModifier + ps.legStrength / 100;
+                    currentSpeedMod = Mathf.Clamp(mudSpeedModifier + ps.legStrength / 100, 0.25f, 2);
                     ps.isOnField = false;
                     break;
                 case "Akker":
