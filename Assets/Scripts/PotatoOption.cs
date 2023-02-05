@@ -18,6 +18,10 @@ public class PotatoOption : MonoBehaviour
     PotatoPicker pi;
     bool canClick = true;
     Button b;
+    [SerializeField]
+    Slider strSlider;
+    [SerializeField]
+    Slider lenSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +40,10 @@ public class PotatoOption : MonoBehaviour
             potatoLen = GameObject.Find("GameEngine").GetComponent<GameRunner>().winnerPotatoLength + Random.Range(-10, 11);
             potatoLen = Mathf.Clamp(potatoLen, -100, 100);
         }
-        pLen.GetComponent<TextMeshProUGUI>().text = "Length: "+potatoLen;
-        pStr.GetComponent<TextMeshProUGUI>().text = "Strenght: "+potatoStr;
+        strSlider.value = potatoStr;
+        lenSlider.value = potatoLen;
+        //pLen.GetComponent<TextMeshProUGUI>().text = "Length: "+potatoLen;
+        //pStr.GetComponent<TextMeshProUGUI>().text = "Strenght: "+potatoStr;
     }
 
     public void SetDefault()

@@ -31,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     PlayerStats ps;
     public bool birding = false;
     Transform birdTarget;
+    bool isWalking = false;
+    bool hasWon = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +90,28 @@ public class PlayerMovement : MonoBehaviour
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Rotsen"));
         tiles.AddRange(GameObject.FindGameObjectsWithTag("Modder"));
         scoreTMP.text = GameObject.Find("GameEngine").GetComponent<GameRunner>().playerScores[playerID - 1].ToString();
+    }
+
+    private void Update()
+    {
+        if (Input.GetAxis(inputHAxis) != 0 || Input.GetAxis(inputVAxis) != 0)
+        {
+            isWalking = true;
+        }
+        else
+        {
+            isWalking = false;
+        }
+        if (isWalking)
+        {
+            GetComponent<Animation>().Play("Walking");
+        } else if (hasWon)
+        {
+            GetComponent<Animation>().Play("Winning");
+        } else
+        {
+            GetComponent<Animation>().Play("Idle");
+        }
     }
 
     // Update is called once per frame
@@ -166,9 +190,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Finish"))
+        if (GameObject.Find("GameEngine").GetComponent<GameRunner>().playerFinished == false)
         {
-            StartCoroutine(GameObject.Find("GameEngine").GetComponent<GameRunner>().FinishLevel(gameObject));
+            if (other.gameObject.CompareTag("Finish"))
+            {
+                StartCoroutine(GameObject.Find("GameEngine").GetComponent<GameRunner>().FinishLevel(gameObject));
+                GameObject.Find("GameEngine").GetComponent<GameRunner>().playerFinished = true;
+            }
         }
     }
 }

@@ -15,11 +15,18 @@ public class FinalScore : MonoBehaviour
     {
         ge = GameObject.Find("GameEngine");
         //StartCoroutine(DisplayRanking());
+        Invoke("Init", 0.2f);
         ShowScores();
+    }
+
+    void Init()
+    {
+        ge.GetComponent<GameRunner>().Init();
     }
 
     public void MainMenu()
     {
+        ge.GetComponent<AudioSource>().Stop();
         SceneManager.LoadScene("MainMenu");
     }
 

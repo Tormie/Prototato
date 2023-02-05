@@ -18,17 +18,50 @@ public class GameRunner : MonoBehaviour
     public int[] playerIndexOrder;
     bool areScoresInit = false;
     public List<GameObject> playerOrder;
-
+    AudioSource musicSource;
+    [SerializeField]
+    AudioClip menuMusic;
+    [SerializeField]
+    AudioClip gameMusic;
+    [SerializeField]
+    AudioClip victoryMusic;
+    [SerializeField]
+    AudioClip victoryFade;
+    public bool playerFinished = false;
 
     private void Start()
     {
         pStats = new float[GetComponent<LevelGenerator>().playerAmount, 2];
+        musicSource = GetComponent<AudioSource>();
     }
 
     public void Init()
     {
-        winText = GameObject.Find("WinText");
-        winText.SetActive(false);
+        if (SceneManager.GetActiveScene().name == "TileGen")
+        {
+            playerFinished = false;
+            winText = GameObject.Find("WinText");
+            winText.SetActive(false);
+        }
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "MainMenu":
+                musicSource.clip = menuMusic;
+                musicSource.Play();
+                break;
+            case "PotatoPicker":
+                musicSource.clip = menuMusic;
+                musicSource.Play();
+                break;
+            case "TileGen":
+                musicSource.clip = gameMusic;
+                musicSource.Play();
+                break;
+            case "FinalScreen":
+                musicSource.clip = victoryMusic;
+                musicSource.Play();
+                break;
+        }
     }
 
     public void SetPScores()

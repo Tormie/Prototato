@@ -2712,6 +2712,7 @@ GameObject:
   - component: {fileID: 9150612980475414400}
   - component: {fileID: 9150612980475414407}
   - component: {fileID: 9150612980475414406}
+  - component: {fileID: 4348741979541000722}
   m_Layer: 0
   m_Name: PotatoGuyYeller
   m_TagString: Player
@@ -2751,7 +2752,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &9150612980475414400
 CapsuleCollider:
@@ -2804,8 +2805,27 @@ MonoBehaviour:
   legStrength: 0
   legLength: 0
   stealthMeter: 1
+  birdy: {fileID: 4407026584271449878, guid: a71c95e9c515641ffa946087eb672219, type: 3}
   dangerShadow: {fileID: 2435213551457125544}
   isOnField: 0
+--- !u!111 &4348741979541000722
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9150612980475414403}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 5690475035124461754, guid: 67392a717c976475fb4fdbd391f5c101, type: 3}
+  m_Animations:
+  - {fileID: 5690475035124461754, guid: 67392a717c976475fb4fdbd391f5c101, type: 3}
+  - {fileID: -8800838248204228948, guid: 67392a717c976475fb4fdbd391f5c101, type: 3}
+  - {fileID: 723096430288179899, guid: 67392a717c976475fb4fdbd391f5c101, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 1
 --- !u!1 &9155030647431993307
 GameObject:
   m_ObjectHideFlags: 0

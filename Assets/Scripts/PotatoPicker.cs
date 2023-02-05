@@ -56,6 +56,7 @@ public class PotatoPicker : MonoBehaviour
 
     void Init()
     {
+        ge.GetComponent<GameRunner>().Init();
         for (int i = 0; i < 4; i++)
         {
             GameObject b = Instantiate(potatoOption, new Vector3(0, 0, 0), Quaternion.identity);
@@ -67,8 +68,27 @@ public class PotatoPicker : MonoBehaviour
             }
             if (SceneManager.GetActiveScene().name == "InitialPotatoPicker")
             {
-                b.GetComponent<PotatoOption>().potatoLen = Random.Range(-25, 26);
-                b.GetComponent<PotatoOption>().potatoStr = Random.Range(-25, 26);
+                switch (i)
+                {
+                    case 0:
+                        b.GetComponent<PotatoOption>().potatoLen = -50;
+                        b.GetComponent<PotatoOption>().potatoStr = 0;
+                        break;
+                    case 1:
+                        b.GetComponent<PotatoOption>().potatoLen = 50;
+                        b.GetComponent<PotatoOption>().potatoStr = 0;
+                        break;
+                    case 2:
+                        b.GetComponent<PotatoOption>().potatoLen = 0;
+                        b.GetComponent<PotatoOption>().potatoStr = 50;
+                        break;
+                    case 3:
+                        b.GetComponent<PotatoOption>().potatoLen = 0;
+                        b.GetComponent<PotatoOption>().potatoStr = -50;
+                        break;
+
+                }
+
             }
         }
     }
