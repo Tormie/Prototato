@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3880822, g: 0.727803, b: 0.732499, a: 1}
+  m_IndirectSpecularColor: {r: 0.38810045, g: 0.7278148, b: 0.7324987, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1328,10 +1328,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Player 1(Blue) uses the NES controller
+  m_text: 'Player 1(Blue) uses the arrow keys or controller 1
 
-    Player 2(Red) uses the SNES
-    controller'
+    Player 2(Red)
+    uses WASD or controller 2'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 27f54c9130c9748c9be53df11fa03382, type: 2}
   m_sharedMaterial: {fileID: -4171563015097924827, guid: 27f54c9130c9748c9be53df11fa03382, type: 2}
@@ -2183,6 +2183,10 @@ PrefabInstance:
       propertyPath: victoryMusic
       value: 
       objectReference: {fileID: 8300000, guid: eb80d896bbe45418e809cce8b5704326, type: 3}
+    - target: {fileID: 1013256667412932010, guid: b35c9507a6fac417c9a4c40806b5647b, type: 3}
+      propertyPath: akkerMesh
+      value: 
+      objectReference: {fileID: 5321208843532222138, guid: 5d6045b8611ccbc488c74ceda7bbe0ac, type: 3}
     - target: {fileID: 1013256667412932010, guid: b35c9507a6fac417c9a4c40806b5647b, type: 3}
       propertyPath: finishMat
       value: 
